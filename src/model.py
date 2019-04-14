@@ -69,7 +69,7 @@ class Model:
             iter_cnt += 1
 
             if self.updates % 20 == 0:
-                print('Iter: %d/%d, Loss: %f' % (iter_cnt, num_iter, loss.data[0]))
+                print('Iter: %d/%d, Loss: %f' % (iter_cnt, num_iter, loss.data.item()))
         self.scheduler.step()
         print('LR:', self.scheduler.get_lr()[0])
 
@@ -144,7 +144,7 @@ class Model:
 
             # Transfer to GPU
             if self.use_cuda:
-                batch_input = [Variable(x.cuda(async=True)) for x in batch_input]
+                batch_input = [Variable(x.cuda(non_blocking=True)) for x in batch_input]
             else:
                 batch_input = [Variable(x) for x in batch_input]
             yield batch_input
